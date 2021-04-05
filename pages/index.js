@@ -1,65 +1,84 @@
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { colors } from '../styles/theme'
+import GitHub from '../components/Icons/GitHub'
+import AppLayout from '../components/AppLayout'
+import Button from '../components/Button'
+
+import { loginWithGitHub, onAuthStateChanged } from '../firebase/client'
+import Avatar from '../components/Avatar'
 
 export default function Home() {
+  const [user, setUser] = useState(undefined)
+
+  useEffect(() => {
+    onAuthStateChanged(setUser)
+  }, [])
+
+  const handleClick = () => {
+    loginWithGitHub()
+      .then((user) => {
+        const { avatar, username, url } = user
+        setUser(user)
+        console.log(user)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
+        <title>Devtter 🐦</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <AppLayout>
+        <section>
+          <img src="/corgi.png" alt="logo" />
+          <h1>Devtter</h1>
+          <h2>Talk about development 👨🏻‍💻</h2>
+          <div>
+            {user === null && (
+              <Button onClick={handleClick}>
+                <GitHub fill={'#fff'} width={32} height={24} />
+                Login with Github
+              </Button>
+            )}
+            {user && user.avatar && (
+              <Avatar avatar={user.avatar} username={user.username} />
+            )}
+          </div>
+        </section>
+      </AppLayout>
+      <style jsx>
+        {`
+          img {
+            width: 120px;
+            image-rendering: pixelated;
+          }
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+          div {
+            margin-top: 16px;
+          }
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+          section {
+            display: grid;
+            height: 100%;
+            place-content: center;
+            place-items: center;
+          }
+          h1 {
+            color: ${colors.primary};
+            font-weight: 800;
+            margin-bottom: 0;
+          }
+          h2 {
+            color: ${colors.secondary};
+            font-size: 21px;
+            margin: 0px;
+          }
+        `}
+      </style>
     </div>
   )
 }
