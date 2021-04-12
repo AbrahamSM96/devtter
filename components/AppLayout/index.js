@@ -1,7 +1,7 @@
 import React from 'react'
 import styles, { globalStyles } from './styles'
 
-export default function AppLayout({ children }) {
+export default function AppLayout ({ children }) {
   return (
     <>
       <div>

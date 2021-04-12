@@ -23,6 +23,10 @@ export const globalStyles = css.global`
   * {
     box-sizing: border-box;
   }
+  textarea,
+  input {
+    font-family: ${fonts.base};
+  }
 `
 
 export default css`
@@ -33,11 +37,15 @@ export default css`
   }
 
   main {
+    display: flex;
+    flex-direction: column;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     height: 100%;
     width: 100%;
+    position: relative;
+    overflow-y: auto;
   }
 
   @media (min-width: ${breakpoints.mobile}) {

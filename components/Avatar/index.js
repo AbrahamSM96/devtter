@@ -1,11 +1,12 @@
 import React from 'react'
+import styles from './styles.module.css'
 
-export default function Avatar({ avatar, username }) {
+export default function Avatar({ src, alt, text }) {
   return (
     <>
-      <div>
-        <img src={avatar} />
-        <strong>{username}</strong>
+      <div className={styles.container}>
+        <img className={styles.avatar} src={src} alt={alt} />
+        {text && <strong>{text}</strong>}
       </div>
     </>
   )
