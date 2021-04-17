@@ -72,30 +72,32 @@ const mapDevitFromFirebaseToDevitObject = (doc) => {
     createAt: +createAt.toDate()
   }
 }
-
+// Escuchamos si algun Devit se agrega para hacerlo en tiempo real
 export const listenLatestDevits = (callback) => {
-  return db
-    .collection('devits')
-    .orderBy('createdAt', 'desc')
-    .limit(1)
-    .onSnapshot(({ docs }) => {
-      const newDevits = docs.map(mapDevitFromFirebaseToDevitObject)
-      callback(newDevits)
-    })
+  return (
+    db
+      .collection('devits')
+      .orderBy('createAt', 'desc')
+      // .limit(1)
+      .onSnapshot(({ docs }) => {
+        const newDevits = docs.map(mapDevitFromFirebaseToDevitObject)
+        callback(newDevits)
+      })
+  )
 }
 
 // Consultamos a firebase para mostrar los tweets
-export const fetchLatestDevits = () => {
-  return db
-    .collection('devits')
-    .orderBy('createAt', 'desc')
-    .get()
-    .then(({ docs }) => {
-      return docs.map((doc) => {
-        return mapDevitFromFirebaseToDevitObject(doc)
-      })
-    })
-}
+// export const fetchLatestDevits = () => {
+//   return db
+//     .collection('devits')
+//     .orderBy('createAt', 'desc')
+//     .get()
+//     .then(({ docs }) => {
+//       return docs.map((doc) => {
+//         return mapDevitFromFirebaseToDevitObject(doc)
+//       })
+//     })
+// }
 
 export const uploadImage = (file) => {
   // Recuperamos la referencia al storage,
