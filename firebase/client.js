@@ -60,6 +60,30 @@ export const addDevit = ({ avatar, content, userId, userName, img }) => {
     sharedCount: 0
   })
 }
+
+const mapDevitFromFirebaseToDevitObject = (doc) => {
+  const data = doc.data()
+  const id = doc.id
+  const { createAt } = data
+
+  return {
+    ...data,
+    id,
+    createAt: +createAt.toDate()
+  }
+}
+
+export const listenLatestDevits = (callback) => {
+  return db
+    .collection('devits')
+    .orderBy('createdAt', 'desc')
+    .limit(1)
+    .onSnapshot(({ docs }) => {
+      const newDevits = docs.map(mapDevitFromFirebaseToDevitObject)
+      callback(newDevits)
+    })
+}
+
 // Consultamos a firebase para mostrar los tweets
 export const fetchLatestDevits = () => {
   return db
@@ -68,15 +92,7 @@ export const fetchLatestDevits = () => {
     .get()
     .then(({ docs }) => {
       return docs.map((doc) => {
-        const data = doc.data()
-        const id = doc.id
-        const { createAt } = data
-
-        return {
-          ...data,
-          id,
-          createAt: +createAt.toDate()
-        }
+        return mapDevitFromFirebaseToDevitObject(doc)
       })
     })
 }

@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+.twitterClone/devtter/firebase/firebase-keys.json
+twitterClone/devtter/firebase/.firebase-keys.json

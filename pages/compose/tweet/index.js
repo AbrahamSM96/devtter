@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import AppLayout from 'components/AppLayout'
 import Button from 'components/Button'
 import useUser from 'hooks/useUser'
 import Head from 'next/head'
@@ -95,33 +94,31 @@ export default function ComposeTweet() {
 
   return (
     <>
-      <AppLayout>
-        <Head>
-          <title>Crear un Devit / Devtter</title>
-        </Head>
-        <section className="form-container">
-          <section className="avatar-container">
-            {user && <Avatar src={user.avatar} />}
-          </section>
-          <form onSubmit={handleSubmit}>
-            <textarea
-              placeholder="¿Qué esta pasando?"
-              onChange={handleChange}
-              onDragEnter={handleDragEnter}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              value={message}
-            ></textarea>
-            {imgURL && (
-              <section className="remove-img">
-                <button onClick={() => setImgURL(null)}>X</button>
-                <img src={imgURL} />
-              </section>
-            )}
-            <Button disabled={isButtonsDisabled}>Devittear</Button>
-          </form>
+      <Head>
+        <title>Crear un Devit / Devtter</title>
+      </Head>
+      <section className="form-container">
+        <section className="avatar-container">
+          {user && <Avatar src={user.avatar} />}
         </section>
-      </AppLayout>
+        <form onSubmit={handleSubmit}>
+          <textarea
+            placeholder="¿Qué esta pasando?"
+            onChange={handleChange}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            value={message}
+          ></textarea>
+          {imgURL && (
+            <section className="remove-img">
+              <button onClick={() => setImgURL(null)}>X</button>
+              <img src={imgURL} />
+            </section>
+          )}
+          <Button disabled={isButtonsDisabled}>Devittear</Button>
+        </form>
+      </section>
       <style jsx>
         {`
           div {

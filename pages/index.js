@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { colors } from 'styles/theme'
 import GitHub from 'components/Icons/GitHub'
-import AppLayout from 'components/AppLayout'
 import Button from 'components/Button'
 import { loginWithGitHub } from 'firebase/client'
 import useUser from 'hooks/useUser'
@@ -28,22 +27,20 @@ export default function Home() {
         <title>Devtter 🐦</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AppLayout>
-        <section>
-          <img src="/corgi.png" alt="logo" />
-          <h1>Devtter</h1>
-          <h2>Talk about development 👨🏻‍💻</h2>
-          <div>
-            {user === null && (
-              <Button onClick={handleClick}>
-                <GitHub fill={'#fff'} width={32} height={24} />
-                Login with Github
-              </Button>
-            )}
-            {user === undefined && <img src="/spinner.gif" />}
-          </div>
-        </section>
-      </AppLayout>
+      <section>
+        <img src="/corgi.png" alt="logo" />
+        <h1>Devtter</h1>
+        <h2>Talk about development 👨🏻‍💻</h2>
+        <div>
+          {user === null && (
+            <Button onClick={handleClick}>
+              <GitHub fill={'#fff'} width={32} height={24} />
+              Login with Github
+            </Button>
+          )}
+          {user === undefined && <img src="/spinner.gif" />}
+        </div>
+      </section>
       <style jsx>
         {`
           img {

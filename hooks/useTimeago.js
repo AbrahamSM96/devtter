@@ -31,12 +31,12 @@ export default function useTimeago(timestamp) {
       const newTimeAgo = getDateDiffs(timestamp)
       setTimeago(newTimeAgo)
     }, 5000)
+
     return () => clearInterval(interval)
   }, [timestamp])
   // usamos la api del navegador para indicar en automatico el 'hace 1 dia'
-  const rtf = new Intl.RelativeTimeFormat('es', {
-    style: 'short'
-  })
+  const rtf = new Intl.RelativeTimeFormat('es', { style: 'short' })
+
   const { value, unit } = timeago
 
   return rtf.format(value, unit)
