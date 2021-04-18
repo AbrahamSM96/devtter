@@ -1,4 +1,9 @@
 import { useState, useEffect } from 'react'
+import { formatDate } from './useDateTimeFormat'
+
+// Vamos a probar si el navegador es compatible con esta funcionalidad
+const isRelativeTimeFormatSupported =
+  typeof Intl !== 'undefined' && Intl.RelativeTimeFormat
 
 const DATE_UNITS = [
   ['day', 86400],
@@ -27,13 +32,19 @@ export default function useTimeago(timestamp) {
   const [timeago, setTimeago] = useState(() => getDateDiffs(timestamp))
   // Esto actualizara la vista cada segundo para poder visualizar al momento cuanto tiempo paso despues de tu tweet
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newTimeAgo = getDateDiffs(timestamp)
-      setTimeago(newTimeAgo)
-    }, 5000)
-
-    return () => clearInterval(interval)
+    if (isRelativeTimeFormatSupported) {
+      const interval = setInterval(() => {
+        const newTimeAgo = getDateDiffs(timestamp)
+        setTimeago(newTimeAgo)
+      }, 5000)
+      return () => clearInterval(interval)
+    }
   }, [timestamp])
+
+  // Verificamos si es compatible con el navegador el relative time format
+  if (!isRelativeTimeFormatSupported) {
+    return formatDate(timestamp)
+  }
   // usamos la api del navegador para indicar en automatico el 'hace 1 dia'
   const rtf = new Intl.RelativeTimeFormat('es', { style: 'short' })
 

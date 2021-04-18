@@ -12,6 +12,7 @@ const firebaseConfig = {
   appId: '1:827877724970:web:b7dc74419b07e74d644453',
   measurementId: 'G-BPCW7CF764'
 }
+// const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG)
 // Inicializamos firebase
 // esta comprobacion es para el hot reload de nextjs
 !firebase.apps.length && firebase.initializeApp(firebaseConfig)
